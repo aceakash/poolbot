@@ -8,15 +8,18 @@ export enum EventType {
     ResultAdded = "ResultAdded"
 }
 
+
 export abstract class Event {
     EventID: string;        
     Type: EventType;
     CreatedOn: Date;
+    Data: any;
     
     constructor(type: EventType, data: any) {
         this.EventID = newUUID()
         this.CreatedOn = new Date()
         this.Type = type
+        this.Data = data
     }
 }
 
