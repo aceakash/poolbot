@@ -1,0 +1,16 @@
+{
+  "name": "poolbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "rm -rfv compiled/* && tsc",
+    "start": "node compiled/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}
