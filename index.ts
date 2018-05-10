@@ -10,4 +10,4 @@ eventStore.AddEvents(eventStore.Decide(new AddResultCommand("akash.kurdekar", "t
 eventStore.AddEvents(eventStore.Decide(new AddResultCommand("akash.kurdekar", "jigs", "jigs")))
 eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "jigs", "akash.kurdekar")))
 eventStore.AddEvents(eventStore.Decide(new AddResultCommand("jigs", "tom.coakes", "jigs")))
-console.log(playerLog(eventStore, "akash.kurdekar"))
+
