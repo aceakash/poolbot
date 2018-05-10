@@ -3,11 +3,32 @@ import {FileEventStoreRepo} from './fileEventStoreRepo'
 import {RegisterPlayerCommand, AddResultCommand} from './commands'
 
 import {playerLog} from './projections/playerLog'
-const eventStore = new EventStore(new FileEventStoreRepo("./event-store.json"))
+import {eloRating} from './projections/eloRating'
+
+// test
+import {convert} from './test-data-to-event-store'
+
+convert()
 
 
-eventStore.AddEvents(eventStore.Decide(new AddResultCommand("akash.kurdekar", "tom.coakes", "akash.kurdekar")))
-eventStore.AddEvents(eventStore.Decide(new AddResultCommand("akash.kurdekar", "jigs", "jigs")))
-eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "jigs", "akash.kurdekar")))
-eventStore.AddEvents(eventStore.Decide(new AddResultCommand("jigs", "tom.coakes", "jigs")))
+const eventStore = new EventStore(new FileEventStoreRepo("./testEventStore.json"))
 
+
+
+
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+// eventStore.AddEvents(eventStore.Decide(new AddResultCommand("tom.coakes", "akash.kurdekar","akash.kurdekar")))
+
+// console.log(playerLog(eventStore, "akash.kurdekar"))
+
+const table = eloRating(eventStore, 2000, 32)
+console.log(table)

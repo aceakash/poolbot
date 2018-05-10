@@ -1,5 +1,5 @@
 import { Command, CommandType, AddResultCommand, RegisterPlayerCommand } from './commands';
-import {Event} from './events';
+import {Event, EventType, PlayerRegistered, ResultAdded} from './events';
 
 export interface EventStoreRepo {
     AddEvents(events: Event[]): void
@@ -22,7 +22,28 @@ export class EventStore {
     }
 
     GetAllEvents(): Event[] {
-        return this.eventStoreRepo.GetAllEvents()
+        // console.log(this.eventStoreRepo.GetAllEvents())
+        const boo = this.DeserialiseAllEvents(this.eventStoreRepo.GetAllEvents())
+        // console.log(boo)
+        return boo
+    }
+
+    DeserialiseAllEvents(events: Event[]): Event[] {
+        return (events.map(function (e: Event) {
+            switch(e.Type) {
+                case EventType.PlayerRegistered:
+                    // console.log('EventType.PlayerRegistered')
+                    const boo = PlayerRegistered.DeserialiseFromEvent(e)
+                    // console.log(boo)
+                    return boo
+                
+                case EventType.ResultAdded:
+                    // console.log('EventType.ResultAdded')
+                    return ResultAdded.DeserialiseFromEvent(e)
+                
+                default:
+                    return e
+            }
+        }) as Event[])
     }
 }
-

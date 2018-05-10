@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "rm -rfv compiled/* && tsc",
-    "start": "node compiled/index.js",
+    "start": "npm run compile && node compiled/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
