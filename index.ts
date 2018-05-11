@@ -4,6 +4,7 @@ import {RegisterPlayerCommand, AddResultCommand} from './commands'
 
 import {playerLog} from './projections/playerLog'
 import {eloRating} from './projections/eloRating'
+import {h2hForPlayer} from './projections/h2h'
 
 // test
 import {convert} from './test-data-to-event-store'
@@ -32,3 +33,5 @@ const eventStore = new EventStore(new FileEventStoreRepo("./testEventStore.json"
 
 const table = eloRating(eventStore, 2000, 32)
 console.log(table)
+const h2h = h2hForPlayer(eventStore, "akash.kurdekar")
+console.log(h2h)

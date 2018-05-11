@@ -16,9 +16,6 @@ export function eloRating(eventStore: EventStore,
     startingScore: number, constantFactor: number): EloRatingItem[] {
     
     const allEvents: Event[] = eventStore.GetAllEvents()
-    // console.log(allEvents)
-    
-    // let eloRatingItems: EloRatingItem[] = []
     let playerRatings: IRatingsHash = {}
     
     allEvents.forEach(e => {
@@ -38,12 +35,7 @@ export function eloRating(eventStore: EventStore,
     })
     
     return reverse(sortBy(values(playerRatings), 'rating'))
-    // todo sort
 }
-
-
-
-
 
 interface newRatings {
     winnerNewRating: number;
