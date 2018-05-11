@@ -37,12 +37,12 @@ export function eloRating(eventStore: EventStore,
     return reverse(sortBy(values(playerRatings), 'rating'))
 }
 
-interface newRatings {
+export interface newRatings {
     winnerNewRating: number;
     loserNewRating: number;
 }
 
-function calculateNewEloRating(winnerOldRating: number, loserOldRating: number, constantFactor: number): newRatings {
+export function calculateNewEloRating(winnerOldRating: number, loserOldRating: number, constantFactor: number): newRatings {
     const winnerTransformedRating = transformRating(winnerOldRating)
 	const loserTransformedRating = transformRating(loserOldRating)
 	const expectedWinnerScore = getExpectedScore(winnerTransformedRating, loserTransformedRating)
