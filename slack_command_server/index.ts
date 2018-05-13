@@ -25,7 +25,7 @@ convert()
 const eventStore = new EventStore(new FileEventStoreRepo("./testEventStore.json"))
 const STARTING_SCORE = 2000
 const CONSTANT_FACTOR = 32
-
+const ADMIN_USERS = ["akash.kurdekar"]
 //---------
 const app = express()
 
@@ -52,6 +52,8 @@ app.post('/slack', (req: express.Request, res: express.Response) => {
         case "result":
             return resultHandler(query, res)
 
+        case "register":
+            return registerHandler(query, res)    
         // case "h2h":
         //     return h2hHandler(query, res)
 
@@ -80,6 +82,21 @@ function helpHandler(query: any, res: express.Response) {
 \`/pool result <winner> <loser>\`: add a result
 \`/pool h2h <player_name>\`: see player's head-to-head stats vs everyone else
 \`/pool log\`: see all the games played so far`)    
+}
+
+function registerHandler(query: any, res: express.Response) {
+    const isAdmin = ADMIN_USERS.includes(sanitiseUserName(query.user_name))
+    if (!isAdmin) {
+        return res.send("You are not authorised to register a new user. Please ask " + ADMIN_USERS.join(" or "))
+    }
+    const parts = query.text.split(" ")
+    if (parts.length !== 2) {
+        return res.send("Wrong format. Use `/pool register <user_name>`")
+    }
+    const newPlayer = sanitiseUserName(parts[1])
+    const events = eventStore.Decide(new RegisterPlayerCommand(newPlayer))
+    eventStore.AddEvents(events)
+    res.send(`${newPlayer} registered`)
 }
 
 function logHandler(query: any, res: express.Response) {
