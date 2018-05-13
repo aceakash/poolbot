@@ -8,7 +8,7 @@ import {RegisterPlayerCommand, AddResultCommand} from '../commands'
 import {playerLog} from '../projections/playerLog'
 import {eloRating, EloRatingItem} from '../projections/eloRating'
 import {h2hForPlayer} from '../projections/h2h'
-import {gameLog} from '../projections/gameLog'
+import {gameLog, LogItem} from '../projections/gameLog'
 
 // test
 import {convert} from '../test-data-to-event-store'
@@ -84,7 +84,8 @@ function helpHandler(query: any, res: express.Response) {
 \`/pool ratings\`: see the ratings table
 \`/pool result <winner> <loser>\`: add a result
 \`/pool h2h <player_name>\`: see player's head-to-head stats vs everyone else
-\`/pool log\`: see all the games played so far`)    
+\`/pool log\`: see the most recently played games
+\`/pool log <user_name>\`: see a user's most recently played games`)    
 }
 
 function h2hHandler(query: any, res: express.Response) {
@@ -121,9 +122,21 @@ function registerHandler(query: any, res: express.Response) {
 }
 
 function logHandler(query: any, res: express.Response) {
-    const logItems = gameLog(eventStore, STARTING_SCORE, CONSTANT_FACTOR)
+    let logItems: LogItem[] = gameLog(eventStore, STARTING_SCORE, CONSTANT_FACTOR)
 
-    const mostRecent = take(logItems, 25).map(e => {
+    const parts = query['text'].split(' ')
+    if (parts.length > 1) {
+        const playerName = sanitiseUserName(parts[1])
+        const matchedPlayers = eventStore.GetAllEvents()
+            .filter(x => x.Type === EventType.PlayerRegistered)
+            .filter(x => (x as PlayerRegistered).PlayerName === playerName)
+        if (matchedPlayers.length !== 1) {
+            return res.send(`${playerName} is not registered. Try \`/pool log\``)
+        }
+        logItems = logItems.filter(x => x.winner.name === playerName || x.loser.name === playerName)
+    }
+
+    const mostRecent = take(logItems, 50).map(e => {
         return '[' + getDateString(e.date) + '] '
             + padStart(e.winner.name, 21, ' ') + ' '
             + '(' + padStart(e.winner.oldRating.toString(), 4, ' ') + ' ⇨ '

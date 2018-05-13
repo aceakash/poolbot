@@ -3,7 +3,7 @@ import {EventStore} from '../eventStore'
 import {calculateNewEloRating, newRatings} from './eloRating'
 import {sortBy, reverse} from 'lodash'
 
-interface logItem {
+export interface LogItem {
     gameID: string;
     date: Date;
     winner: playerItem;
@@ -17,8 +17,8 @@ interface playerItem {
     newRating: number;
 }
 
-export function gameLog(eventStore: EventStore, startingScore: number, constantFactor: number): logItem[] {
-    let log: logItem[] = []
+export function gameLog(eventStore: EventStore, startingScore: number, constantFactor: number): LogItem[] {
+    let log: LogItem[] = []
 
     let playerRatings = new Map<string, number>()
 
