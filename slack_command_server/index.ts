@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {padStart} from 'lodash'
+import {padStart, padEnd, takeRight} from 'lodash'
 
 import {EventStore} from '../eventStore'
 import {FileEventStoreRepo} from '../fileEventStoreRepo'
@@ -12,7 +12,7 @@ import {gameLog} from '../projections/gameLog'
 
 // test
 import {convert} from '../test-data-to-event-store'
-import { PlayerRegistered, EventType } from '../events';
+import { PlayerRegistered, EventType, ResultAdded } from '../events';
 convert()
 
 
@@ -49,8 +49,8 @@ app.post('/slack', (req: express.Request, res: express.Response) => {
         // case "h2h":
         //     return h2hHandler(query, res)
 
-        // case "log":
-        //     return logHandler(query, res)
+        case "log":
+            return logHandler(query, res)
 
         case "help":
             return helpHandler(query, res)
@@ -74,6 +74,26 @@ function helpHandler(query: any, res: express.Response) {
 \`/pool result <winner> <loser>\`: add a result
 \`/pool h2h <player_name>\`: see player's head-to-head stats vs everyone else
 \`/pool log\`: see all the games played so far`)    
+}
+
+function logHandler(query: any, res: express.Response) {
+    const results = eventStore.GetAllEvents().filter(x => x.Type === EventType.ResultAdded)
+    const mostRecent = takeRight(results, 50).map(e => (e as ResultAdded)).map(e => {
+        return '[' + getDateString(e.CreatedOn) + '] '
+            + padEnd(e.WinnerName, 21, ' ') + ' '
+            + 'defeated  '
+            + padEnd(e.LoserName, 21, ' ') + ' '
+            + 'added by '
+            + padEnd(e.AddedBy, 21, ' ') + ' '
+    })
+    res.send(mostRecent.join('\n'))
+}
+
+function getDateString(date: Date): string {
+    if (typeof date === 'string') {
+        date = new Date(date)
+    }
+    return date.toUTCString().substring(5, 11)
 }
 
 function ratingsHandler(query: any, res: express.Response) {
