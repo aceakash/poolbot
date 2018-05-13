@@ -54,8 +54,9 @@ app.post('/slack', (req: express.Request, res: express.Response) => {
 
         case "register":
             return registerHandler(query, res)    
-        // case "h2h":
-        //     return h2hHandler(query, res)
+        
+        case "h2h":
+            return h2hHandler(query, res)
 
         case "log":
             return logHandler(query, res)
@@ -82,6 +83,21 @@ function helpHandler(query: any, res: express.Response) {
 \`/pool result <winner> <loser>\`: add a result
 \`/pool h2h <player_name>\`: see player's head-to-head stats vs everyone else
 \`/pool log\`: see all the games played so far`)    
+}
+
+function h2hHandler(query: any, res: express.Response) {
+    const parts = query.text.split(" ")
+    if (parts.length !== 2) {
+        return res.send("Wrong format. Use `/pool h2h <user_name>`")
+    }
+    const playerName = sanitiseUserName(parts[1])
+    const h2h = h2hForPlayer(eventStore, playerName)
+    let h2hText = '```\nH2H for ' + playerName + ':\n\n'
+    h2hText += Array.from(h2h.values())
+        .map(x => `${padStart(x.won.toString(), 2, ' ')} - ${padEnd(x.lost.toString(), 2, ' ')} vs ${x.opponentName}`)
+        .join('\n')
+    h2hText += '\n```'
+    res.send(h2hText)
 }
 
 function registerHandler(query: any, res: express.Response) {
