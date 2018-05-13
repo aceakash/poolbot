@@ -149,6 +149,8 @@ function ratingsHandler(query: any, res: express.Response) {
     const WonPercPadding = 6
     const BestRatingPadding = 4
     const PtsPerGamePadding = 8
+    const CurrWinStreakPadding = 15
+    const BestWinStreakPadding = 15
 
     const headerLine = padStart('#', RankPadding, ' ') + ' | ' 
         + padStart('', NamePadding, ' ') + ' | ' 
@@ -157,6 +159,8 @@ function ratingsHandler(query: any, res: express.Response) {
         + padStart('P', PlayedPadding, ' ') + ' | '
         + padStart('W', WonPadding, ' ') + ' | '
         + padStart('W%', WonPercPadding, ' ') + ' | '
+        + padStart('Curr Streak', CurrWinStreakPadding, ' ') + ' | '
+        + padStart('Best Streak', BestWinStreakPadding, ' ') + ' | '
         + padStart('Pts/Game', PtsPerGamePadding, ' ') + ' | '
         
 
@@ -176,6 +180,8 @@ function ratingsHandler(query: any, res: express.Response) {
         + padStart(x.played.toString(), PlayedPadding, ' ') + ' | '
         + padStart(x.won.toString(), WonPadding, ' ') + ' | '
         + padStart(calcWonPerc(x), WonPercPadding, ' ') + ' | '
+        + padStart(x.currentWinStreak.toString(), CurrWinStreakPadding, ' ') + ' | '
+        + padStart(x.bestWinStreak.toString(), BestWinStreakPadding, ' ') + ' | '
         + padStart(calcPtsPerGame(x), PtsPerGamePadding, ' ') + ' | '
     )
     const textLines = headerLine + '\n' + itemLines.join('\n')

@@ -13,6 +13,8 @@ export interface EloRatingItem {
     played: number;
     won: number;
     bestRating: number;
+    currentWinStreak: number;
+    bestWinStreak: number;
 }
 
 export function eloRating(eventStore: EventStore, 
@@ -29,7 +31,9 @@ export function eloRating(eventStore: EventStore,
                 rating: startingScore,
                 played: 0,
                 won: 0,
-                bestRating: startingScore
+                bestRating: startingScore,
+                currentWinStreak: 0,
+                bestWinStreak: 0
             }
         }
 
@@ -41,12 +45,18 @@ export function eloRating(eventStore: EventStore,
             playerRatings[rae.WinnerName].rating = winnerNewRating
             playerRatings[rae.WinnerName].played++
             playerRatings[rae.WinnerName].won++
+            playerRatings[rae.WinnerName].currentWinStreak++
+
+            if (playerRatings[rae.WinnerName].currentWinStreak > playerRatings[rae.WinnerName].bestWinStreak) {
+                playerRatings[rae.WinnerName].bestWinStreak = playerRatings[rae.WinnerName].currentWinStreak
+            }
             if (winnerNewRating > playerRatings[rae.WinnerName].bestRating) {
                 playerRatings[rae.WinnerName].bestRating = winnerNewRating
             }
 
             playerRatings[rae.LoserName].rating = loserNewRating
             playerRatings[rae.LoserName].played++
+            playerRatings[rae.LoserName].currentWinStreak = 0
         }
     })
     
