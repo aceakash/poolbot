@@ -149,16 +149,12 @@ function tableHandler(query: any, res: express.Response) {
     const NamePadding = 21
     const RatingPadding = 4
     
-    const headerLine = padStart('#', RankPadding, ' ') + ' | ' 
-        + padStart('', NamePadding, ' ') + ' | ' 
-        + padStart('', RatingPadding, ' ') + ' | '
-
     let i = 1
-    const itemLines = eloRatings.map(x => padStart((i++).toString(), RankPadding, ' ') + ' | ' 
+    const itemLines = eloRatings.map(x => '|' + padStart((i++).toString(), RankPadding, ' ') + ' | ' 
         + padStart(x.playerName, NamePadding, ' ') + ' | ' 
         + padStart(x.rating.toString(), RatingPadding, ' ') + ' | '
     )
-    const textLines = headerLine + '\n' + itemLines.join('\n')
+    const textLines = itemLines.join('\n')
     res.send("```\n" + textLines + "\n```")
 }
 
