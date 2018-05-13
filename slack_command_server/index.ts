@@ -10,8 +10,6 @@ import {eloRating, EloRatingItem} from '../projections/eloRating'
 import {h2hForPlayer} from '../projections/h2h'
 import {gameLog, LogItem} from '../projections/gameLog'
 
-// test
-import {convert} from '../test-data-to-event-store'
 import { PlayerRegistered, EventType, ResultAdded } from '../events';
 
 interface PlayerChange {
@@ -19,30 +17,16 @@ interface PlayerChange {
     after: number;
 }
 
-convert()
-
-
 const eventStore = new EventStore(new FileEventStoreRepo("./event-store.json"))
 const STARTING_SCORE = 2000
 const CONSTANT_FACTOR = 32
 const ADMIN_USERS = ["akash.kurdekar"]
-//---------
+
 const app = express()
 
 app.get('/slack', (req: express.Request, res: express.Response) => {
     console.log('received command', req.query)
     const query = req.query
-    //     { token: 'wK3JOoMyEQpTrj7qbIDcEqo7',
-//   team_id: 'T025LDE84',
-//   team_domain: 'acuris',
-//   channel_id: 'C0V7YGVFS',
-//   channel_name: 'pool',
-//   user_id: 'U025LDE86',
-//   user_name: 'akash.kurdekar',
-//   command: '/pool',
-//   text: 'result @akash.kurdekar @tejus',
-//   response_url: 'https://hooks.slack.com/commands/T025LDE84/362550156837/BGUAtIxZb60WHA4kZcCzvesr' }
-
 
     const command = query['text'].split(' ')[0]
 
@@ -69,9 +53,6 @@ app.get('/slack', (req: express.Request, res: express.Response) => {
             return helpHandler(query, res)
     }
 })
-
- 
-
 
 app.listen(process.env.PORT, () => {
     console.log('Started on port ' + process.env.PORT)

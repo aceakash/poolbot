@@ -2,13 +2,12 @@ import { EventStoreRepo } from "./eventStore";
 import { Event } from "./events";
 import {writeFileSync, readFileSync} from "fs"
 
-// Keeps all the events in memory, but saves to disk every 5 seconds.
 export class FileEventStoreRepo implements EventStoreRepo {
     Events: any
     Filepath: string
     
     constructor(filepath: string) {
-        this.Filepath = filepath        
+        this.Filepath = filepath
         let f = readFileSync(this.Filepath)
         let g = f.toString()
         this.Events = JSON.parse(g)
