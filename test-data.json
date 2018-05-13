@@ -24,16 +24,16 @@
 		},
 		"akash.kurdekar": {
 			"Name": "akash.kurdekar",
-			"Rating": 2037,
-			"Played": 25,
-			"Won": 16,
-			"Lost": 9
+			"Rating": 2036,
+			"Played": 27,
+			"Won": 17,
+			"Lost": 10
 		},
 		"arthur.gassner": {
 			"Name": "arthur.gassner",
-			"Rating": 1925,
-			"Played": 12,
-			"Won": 3,
+			"Rating": 1963,
+			"Played": 14,
+			"Won": 5,
 			"Lost": 9
 		},
 		"ben.clark": {
@@ -52,10 +52,10 @@
 		},
 		"daniel.alheiros": {
 			"Name": "daniel.alheiros",
-			"Rating": 2025,
-			"Played": 3,
+			"Rating": 2005,
+			"Played": 4,
 			"Won": 2,
-			"Lost": 1
+			"Lost": 2
 		},
 		"fahric": {
 			"Name": "fahric",
@@ -66,9 +66,9 @@
 		},
 		"george.christodoulou": {
 			"Name": "george.christodoulou",
-			"Rating": 2073,
-			"Played": 18,
-			"Won": 12,
+			"Rating": 2091,
+			"Played": 19,
+			"Won": 13,
 			"Lost": 6
 		},
 		"huw.evans": {
@@ -80,9 +80,9 @@
 		},
 		"jamie.preddie": {
 			"Name": "jamie.preddie",
-			"Rating": 2036,
-			"Played": 12,
-			"Won": 7,
+			"Rating": 2052,
+			"Played": 13,
+			"Won": 8,
 			"Lost": 5
 		},
 		"jigs": {
@@ -122,10 +122,10 @@
 		},
 		"neil.haggerty": {
 			"Name": "neil.haggerty",
-			"Rating": 1970,
-			"Played": 16,
+			"Rating": 1952,
+			"Played": 17,
 			"Won": 5,
-			"Lost": 11
+			"Lost": 12
 		},
 		"robert.balla": {
 			"Name": "robert.balla",
@@ -150,10 +150,10 @@
 		},
 		"tejus": {
 			"Name": "tejus",
-			"Rating": 2016,
-			"Played": 14,
-			"Won": 7,
-			"Lost": 7
+			"Rating": 2001,
+			"Played": 17,
+			"Won": 8,
+			"Lost": 9
 		},
 		"tom.coakes": {
 			"Name": "tom.coakes",
@@ -164,10 +164,10 @@
 		},
 		"tom.yandell": {
 			"Name": "tom.yandell",
-			"Rating": 2118,
-			"Played": 37,
+			"Rating": 2100,
+			"Played": 38,
 			"Won": 26,
-			"Lost": 11
+			"Lost": 12
 		},
 		"ventsi.mitev": {
 			"Name": "ventsi.mitev",
@@ -1992,6 +1992,96 @@
 			"LoserChange": {
 				"Before": 2033,
 				"After": 2016
+			},
+			"AddedBy": "akash.kurdekar"
+		}, {
+			"Id": "TO3oWWe9",
+			"Created": "2018-05-10T17:43:41.383956177Z",
+			"Winner": "george.christodoulou",
+			"Loser": "tom.yandell",
+			"Notes": "",
+			"WinnerChange": {
+				"Before": 2073,
+				"After": 2091
+			},
+			"LoserChange": {
+				"Before": 2118,
+				"After": 2100
+			},
+			"AddedBy": "george.christodoulou"
+		}, {
+			"Id": "4nfGnxUS",
+			"Created": "2018-05-10T17:52:12.172362059Z",
+			"Winner": "tejus",
+			"Loser": "akash.kurdekar",
+			"Notes": "",
+			"WinnerChange": {
+				"Before": 2016,
+				"After": 2033
+			},
+			"LoserChange": {
+				"Before": 2037,
+				"After": 2020
+			},
+			"AddedBy": "tejus"
+		}, {
+			"Id": "uuvlvzGB",
+			"Created": "2018-05-11T11:36:11.140130056Z",
+			"Winner": "arthur.gassner",
+			"Loser": "neil.haggerty",
+			"Notes": "",
+			"WinnerChange": {
+				"Before": 1925,
+				"After": 1943
+			},
+			"LoserChange": {
+				"Before": 1970,
+				"After": 1952
+			},
+			"AddedBy": "arthur.gassner"
+		}, {
+			"Id": "NRiyOYI1",
+			"Created": "2018-05-11T11:52:12.941142158Z",
+			"Winner": "jamie.preddie",
+			"Loser": "tejus",
+			"Notes": "",
+			"WinnerChange": {
+				"Before": 2036,
+				"After": 2052
+			},
+			"LoserChange": {
+				"Before": 2033,
+				"After": 2017
+			},
+			"AddedBy": "jamie.preddie"
+		}, {
+			"Id": "z8dc3vvq",
+			"Created": "2018-05-11T15:15:14.833666925Z",
+			"Winner": "arthur.gassner",
+			"Loser": "daniel.alheiros",
+			"Notes": "",
+			"WinnerChange": {
+				"Before": 1943,
+				"After": 1963
+			},
+			"LoserChange": {
+				"Before": 2025,
+				"After": 2005
+			},
+			"AddedBy": "arthur.gassner"
+		}, {
+			"Id": "FbEZsXci",
+			"Created": "2018-05-11T16:30:37.65583485Z",
+			"Winner": "akash.kurdekar",
+			"Loser": "tejus",
+			"Notes": "",
+			"WinnerChange": {
+				"Before": 2020,
+				"After": 2036
+			},
+			"LoserChange": {
+				"Before": 2017,
+				"After": 2001
 			},
 			"AddedBy": "akash.kurdekar"
 		}]

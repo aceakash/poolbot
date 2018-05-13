@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {padStart, padEnd, takeRight} from 'lodash'
+import {padStart, padEnd, take} from 'lodash'
 
 import {EventStore} from '../eventStore'
 import {FileEventStoreRepo} from '../fileEventStoreRepo'
@@ -13,6 +13,12 @@ import {gameLog} from '../projections/gameLog'
 // test
 import {convert} from '../test-data-to-event-store'
 import { PlayerRegistered, EventType, ResultAdded } from '../events';
+
+interface PlayerChange {
+    before: number;
+    after: number;
+}
+
 convert()
 
 
@@ -77,16 +83,21 @@ function helpHandler(query: any, res: express.Response) {
 }
 
 function logHandler(query: any, res: express.Response) {
-    const results = eventStore.GetAllEvents().filter(x => x.Type === EventType.ResultAdded)
-    const mostRecent = takeRight(results, 50).map(e => (e as ResultAdded)).map(e => {
-        return '[' + getDateString(e.CreatedOn) + '] '
-            + padEnd(e.WinnerName, 21, ' ') + ' '
+    const logItems = gameLog(eventStore, STARTING_SCORE, CONSTANT_FACTOR)
+
+    const mostRecent = take(logItems, 25).map(e => {
+        return '[' + getDateString(e.date) + '] '
+            + padStart(e.winner.name, 21, ' ') + ' '
+            + '(' + padStart(e.winner.oldRating.toString(), 4, ' ') + ' ⇨ '
+            + padStart(e.winner.newRating.toString(), 4, ' ') + ') '
             + 'defeated  '
-            + padEnd(e.LoserName, 21, ' ') + ' '
+            + padStart(e.loser.name, 21, ' ') + ' '
+            + '(' + padStart(e.loser.oldRating.toString(), 4, ' ') + ' ⇨ '
+            + padStart(e.loser.newRating.toString(), 4, ' ') + ') '
             + 'added by '
-            + padEnd(e.AddedBy, 21, ' ') + ' '
+            + padStart(e.addedBy, 21, ' ') + ' '
     })
-    res.send(mostRecent.join('\n'))
+    res.send("```\n" + mostRecent.join('\n') + "\n```")    
 }
 
 function getDateString(date: Date): string {
@@ -136,7 +147,7 @@ function ratingsHandler(query: any, res: express.Response) {
         + padStart(calcPtsPerGame(x), PtsPerGamePadding, ' ') + ' | '
     )
     const textLines = headerLine + '\n' + itemLines.join('\n')
-    res.send(textLines)
+    res.send("```\n" + textLines + "\n```")
 }
 
 function resultHandler(query: any, res: express.Response) {
