@@ -15,8 +15,6 @@ convert()
 const eventStore = new EventStore(new FileEventStoreRepo("./testEventStore.json"))
 
 const table = eloRating(eventStore, 2000, 32)
-// console.log(table)
 const h2h = h2hForPlayer(eventStore, "akash.kurdekar")
-// console.log(h2h)
 const log = gameLog(eventStore, 2000, 32)
 console.log(log)

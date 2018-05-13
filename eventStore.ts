@@ -22,9 +22,7 @@ export class EventStore {
     }
 
     GetAllEvents(): Event[] {
-        // console.log(this.eventStoreRepo.GetAllEvents())
         const boo = this.DeserialiseAllEvents(this.eventStoreRepo.GetAllEvents())
-        // console.log(boo)
         return boo
     }
 
@@ -32,13 +30,10 @@ export class EventStore {
         return (events.map(function (e: Event) {
             switch(e.Type) {
                 case EventType.PlayerRegistered:
-                    // console.log('EventType.PlayerRegistered')
                     const boo = PlayerRegistered.DeserialiseFromEvent(e)
-                    // console.log(boo)
                     return boo
                 
                 case EventType.ResultAdded:
-                    // console.log('EventType.ResultAdded')
                     return ResultAdded.DeserialiseFromEvent(e)
                 
                 default:

@@ -28,7 +28,6 @@ export class RegisterPlayerCommand extends Command {
     }
 
     Decide(): Event[] {
-        // todo: validate
         return [new PlayerRegistered(this.Name)]
     }
 
