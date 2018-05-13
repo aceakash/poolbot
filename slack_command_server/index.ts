@@ -29,7 +29,7 @@ const ADMIN_USERS = ["akash.kurdekar"]
 //---------
 const app = express()
 
-app.post('/slack', (req: express.Request, res: express.Response) => {
+app.get('/slack', (req: express.Request, res: express.Response) => {
     console.log('received command', req.query)
     const query = req.query
     //     { token: 'wK3JOoMyEQpTrj7qbIDcEqo7',
