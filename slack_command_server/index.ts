@@ -33,6 +33,9 @@ app.get('/slack', (req: express.Request, res: express.Response) => {
     switch(command) {
         case "ratings":
             return ratingsHandler(query, res)
+
+        case "table":
+            return tableHandler(query, res)
         
         case "result":
             return resultHandler(query, res)
@@ -62,7 +65,8 @@ app.listen(process.env.PORT, () => {
 function helpHandler(query: any, res: express.Response) {
     res.send(`Valid commands are:
 \`/pool help\`: show this help message
-\`/pool ratings\`: see the ratings table
+\`/pool table\`: see a simple ratings table
+\`/pool ratings\`: see an extended ratings table
 \`/pool result <winner> <loser>\`: add a result
 \`/pool h2h <player_name>\`: see player's head-to-head stats vs everyone else
 \`/pool log\`: see the most recently played games
@@ -137,6 +141,25 @@ function getDateString(date: Date): string {
         date = new Date(date)
     }
     return date.toUTCString().substring(5, 11)
+}
+
+function tableHandler(query: any, res: express.Response) {
+    const eloRatings = eloRating(eventStore, STARTING_SCORE, CONSTANT_FACTOR)
+    const RankPadding = 3
+    const NamePadding = 21
+    const RatingPadding = 4
+    
+    const headerLine = padStart('#', RankPadding, ' ') + ' | ' 
+        + padStart('', NamePadding, ' ') + ' | ' 
+        + padStart('', RatingPadding, ' ') + ' | '
+
+    let i = 1
+    const itemLines = eloRatings.map(x => padStart((i++).toString(), RankPadding, ' ') + ' | ' 
+        + padStart(x.playerName, NamePadding, ' ') + ' | ' 
+        + padStart(x.rating.toString(), RatingPadding, ' ') + ' | '
+    )
+    const textLines = headerLine + '\n' + itemLines.join('\n')
+    res.send("```\n" + textLines + "\n```")
 }
 
 function ratingsHandler(query: any, res: express.Response) {
