@@ -7,9 +7,12 @@ interface IRatingsHash {
     [playerName: string] : EloRatingItem;
 } 
 
-interface EloRatingItem {
+export interface EloRatingItem {
     playerName: string;
     rating: number;
+    played: number;
+    won: number;
+    bestRating: number;
 }
 
 export function eloRating(eventStore: EventStore, 
@@ -21,7 +24,13 @@ export function eloRating(eventStore: EventStore,
     allEvents.forEach(e => {
         if (e.Type === EventType.PlayerRegistered) {
             const pre = (e as PlayerRegistered)
-            playerRatings[pre.PlayerName] = {playerName: pre.PlayerName, rating: startingScore}
+            playerRatings[pre.PlayerName] = {
+                playerName: pre.PlayerName, 
+                rating: startingScore,
+                played: 0,
+                won: 0,
+                bestRating: startingScore
+            }
         }
 
         if (e.Type === EventType.ResultAdded) {
@@ -30,7 +39,14 @@ export function eloRating(eventStore: EventStore,
             const loserOldRating = playerRatings[rae.LoserName].rating
             const {winnerNewRating, loserNewRating} = calculateNewEloRating(winnerOldRating, loserOldRating, constantFactor)
             playerRatings[rae.WinnerName].rating = winnerNewRating
+            playerRatings[rae.WinnerName].played++
+            playerRatings[rae.WinnerName].won++
+            if (winnerNewRating > playerRatings[rae.WinnerName].bestRating) {
+                playerRatings[rae.WinnerName].bestRating = winnerNewRating
+            }
+
             playerRatings[rae.LoserName].rating = loserNewRating
+            playerRatings[rae.LoserName].played++
         }
     })
     
