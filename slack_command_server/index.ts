@@ -22,7 +22,7 @@ interface PlayerChange {
 convert()
 
 
-const eventStore = new EventStore(new FileEventStoreRepo("./testEventStore.json"))
+const eventStore = new EventStore(new FileEventStoreRepo("./event-store.json"))
 const STARTING_SCORE = 2000
 const CONSTANT_FACTOR = 32
 const ADMIN_USERS = ["akash.kurdekar"]
@@ -72,8 +72,9 @@ app.post('/slack', (req: express.Request, res: express.Response) => {
  
 
 
-app.listen(2222)
-console.log('Started on http://localhost:2222')
+app.listen(process.env.PORT, () => {
+    console.log('Started on port ' + process.env.PORT)
+})
 
 
 function helpHandler(query: any, res: express.Response) {
@@ -111,6 +112,9 @@ function registerHandler(query: any, res: express.Response) {
     }
     const newPlayer = sanitiseUserName(parts[1])
     const events = eventStore.Decide(new RegisterPlayerCommand(newPlayer))
+    if (events.length === 0) {
+        return res.send(`${newPlayer} is already registered`)
+    }
     eventStore.AddEvents(events)
     res.send(`${newPlayer} registered`)
 }

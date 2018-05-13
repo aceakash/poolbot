@@ -14,7 +14,7 @@ export class EventStore {
     }
 
     Decide(cmd: Command): Event[] {
-        return cmd.Decide()
+        return cmd.Decide(this)
     }
 
     AddEvents(events: Event[]): void {

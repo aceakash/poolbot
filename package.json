@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "rm -rfv compiled/* && tsc",
-    "start": "npm run compile && node compiled/index.js",
+    "start": "npm run compile && node compiled/slack_command_server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

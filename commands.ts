@@ -1,4 +1,5 @@
-import {Event, PlayerRegistered, ResultAdded} from './events'
+import {Event, PlayerRegistered, ResultAdded, EventType} from './events'
+import { EventStore } from './eventStore';
 
 export enum CommandType {
     Unknown = 0,
@@ -13,7 +14,7 @@ export abstract class Command {
         this.Type = CommandType.Unknown
     }
 
-    abstract Decide(): Event[]
+    abstract Decide(eventStore: EventStore): Event[]
 }
 
 export class RegisterPlayerCommand extends Command {
@@ -27,7 +28,13 @@ export class RegisterPlayerCommand extends Command {
         this.Type = CommandType.RegisterPlayer
     }
 
-    Decide(): Event[] {
+    Decide(eventStore: EventStore): Event[] {
+        const existing = eventStore.GetAllEvents()
+            .filter(x => x.Type === EventType.PlayerRegistered)
+            .filter(x => (x as PlayerRegistered).PlayerName === this.Name) 
+        if (existing.length > 0) {
+            return []
+        }
         return [new PlayerRegistered(this.Name)]
     }
 
@@ -48,7 +55,7 @@ export class AddResultCommand extends Command {
         this.Type = CommandType.AddResult
     }
 
-    Decide(): Event[] {
+    Decide(eventStore: EventStore): Event[] {
         return [new ResultAdded(this.WinnerName, this.LoserName, this.AddedBy)]
     }
 }
