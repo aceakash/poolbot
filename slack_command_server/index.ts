@@ -169,8 +169,8 @@ function ratingsHandler(query: any, res: express.Response) {
     const WonPercPadding = 6
     const BestRatingPadding = 4
     const PtsPerGamePadding = 8
-    const CurrWinStreakPadding = 15
-    const BestWinStreakPadding = 15
+    const CurrWinStreakPadding = 11
+    const BestWinStreakPadding = 11
 
     const headerLine = padStart('#', RankPadding, ' ') + ' | ' 
         + padStart('', NamePadding, ' ') + ' | ' 
