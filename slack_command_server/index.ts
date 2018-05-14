@@ -136,13 +136,6 @@ function logHandler(query: any, res: express.Response) {
     res.send("```\n" + mostRecent.join('\n') + "\n```")    
 }
 
-function getDateString(date: Date): string {
-    if (typeof date === 'string') {
-        date = new Date(date)
-    }
-    return date.toUTCString().substring(5, 11)
-}
-
 function tableHandler(query: any, res: express.Response) {
     const eloRatings = eloRating(eventStore, STARTING_SCORE, CONSTANT_FACTOR)
     const RankPadding = 3
@@ -223,6 +216,13 @@ function resultHandler(query: any, res: express.Response) {
     const events = eventStore.Decide(new AddResultCommand(winnerName, loserName, query['user_name']))
     eventStore.AddEvents(events)
     res.send('Result registered')
+}
+
+function getDateString(date: Date): string {
+    if (typeof date === 'string') {
+        date = new Date(date)
+    }
+    return date.toUTCString().substring(5, 11)
 }
 
 function sanitiseUserName(rawUserName: string) {
