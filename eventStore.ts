@@ -13,7 +13,7 @@ export class EventStore {
         this.eventStoreRepo = eventStoreRepo
     }
 
-    Decide(cmd: Command): Event[] {
+    Decide(cmd: Command): Event[] | Error {
         return cmd.Decide(this)
     }
 
@@ -28,17 +28,23 @@ export class EventStore {
 
     DeserialiseAllEvents(events: Event[]): Event[] {
         return (events.map(function (e: Event) {
+            let out: Event | null
             switch(e.Type) {
                 case EventType.PlayerRegistered:
-                    const boo = PlayerRegistered.DeserialiseFromEvent(e)
-                    return boo
+                    out = PlayerRegistered.DeserialiseFromEvent(e)
+                    break
                 
                 case EventType.ResultAdded:
-                    return ResultAdded.DeserialiseFromEvent(e)
-                
+                    out = ResultAdded.DeserialiseFromEvent(e)
+                    break
+                    
                 default:
-                    return e
+                    out = e
             }
+            if (out != null) {
+                out.CreatedOn = new Date(out.CreatedOn)
+            }
+            return out
         }) as Event[])
     }
 }

@@ -3,7 +3,7 @@ import {padStart, padEnd, take} from 'lodash'
 
 import {EventStore} from '../eventStore'
 import {FileEventStoreRepo} from '../fileEventStoreRepo'
-import {RegisterPlayerCommand, AddResultCommand} from '../commands'
+import {RegisterPlayerCommand, AddResultCommand, PairAlreadyPlayedTodayError} from '../commands'
 
 import {playerLog} from '../projections/playerLog'
 import {eloRating, EloRatingItem} from '../projections/eloRating'
@@ -98,6 +98,10 @@ function registerHandler(query: any, res: express.Response) {
     }
     const newPlayer = sanitiseUserName(parts[1])
     const events = eventStore.Decide(new RegisterPlayerCommand(newPlayer))
+    if (events instanceof Error) {
+        console.error(events)
+        return res.send('Oops something went wrong!')
+    }
     if (events.length === 0) {
         return res.send(`${newPlayer} is already registered`)
     }
@@ -214,6 +218,13 @@ function resultHandler(query: any, res: express.Response) {
     }
     const addedBy = sanitiseUserName(query['user_name'])
     const events = eventStore.Decide(new AddResultCommand(winnerName, loserName, addedBy))
+    if (events === PairAlreadyPlayedTodayError) {
+        return res.send('Pair has already played today')
+    }
+    if (events instanceof Error) {
+        console.error(events)
+        return res.send('Oops something went wrong!')
+    }
     eventStore.AddEvents(events)
     res.json({
         text: `${winnerName} defeated ${loserName} (result added by ${addedBy})`,
