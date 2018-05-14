@@ -212,9 +212,10 @@ function resultHandler(query: any, res: express.Response) {
         res.send(noPlayersFoundErrorText)
         return
     }
-    const events = eventStore.Decide(new AddResultCommand(winnerName, loserName, query['user_name']))
+    const addedBy = sanitiseUserName(query['user_name'])
+    const events = eventStore.Decide(new AddResultCommand(winnerName, loserName, addedBy))
     eventStore.AddEvents(events)
-    res.send('Result registered')
+    res.send(`${winnerName} defeated ${loserName} (result added by ${addedBy})`)
 }
 
 function getDateString(date: Date): string {
