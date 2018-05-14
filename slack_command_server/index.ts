@@ -215,7 +215,10 @@ function resultHandler(query: any, res: express.Response) {
     const addedBy = sanitiseUserName(query['user_name'])
     const events = eventStore.Decide(new AddResultCommand(winnerName, loserName, addedBy))
     eventStore.AddEvents(events)
-    res.send(`${winnerName} defeated ${loserName} (result added by ${addedBy})`)
+    res.json({
+        text: `${winnerName} defeated ${loserName} (result added by ${addedBy})`,
+        response_type: 'in_channel'
+    })
 }
 
 function getDateString(date: Date): string {
