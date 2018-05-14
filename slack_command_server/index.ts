@@ -25,12 +25,11 @@ const ADMIN_USERS = ["akash.kurdekar"]
 const app = express()
 
 app.get('/slack', (req: express.Request, res: express.Response) => {
-    console.log('received command', req.query)
     const query = req.query
-
+    console.log(`[${new Date().toISOString()}] ${query.user_name} in ${query.channel_name}: ${query.text}`)
     const command = query['text'].split(' ')[0]
 
-    switch(command) {
+    switch (command) {
         case "ratings":
             return ratingsHandler(query, res)
 
