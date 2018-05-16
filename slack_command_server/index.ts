@@ -239,11 +239,13 @@ function getWinText(winner: string, loser: string) {
         `${winner} thoroughly defeated ${loser}.`,
         `"What just happened?" wonders ${loser} as ${winner} takes a victory lap around the office.`,
         `${winner} triumphant as ${loser} suffers another humiliating defeat.`,
-        `${loser} left in shock as ${winner} deals out shocking defeat.`,
+        `${loser} left in disbelief as ${winner} deals out shocking defeat.`,
         `${winner} strikes again! ${loser} still trying to figure out what happened.`,
         `${loser} left raging after resounding loss to ${winner}`,
         `${loser} was just handed a sickening defeat by ${winner}`,
-        `${winner} coasts to an easy victory over struggling ${loser}`
+        `${winner} coasts to an easy victory over a struggling ${loser}`,
+        `Looks like? Solid victory over ${loser}!`,
+        `${winner} can do no wrong! Easy victory over ${loser}!`
     ]
     return sample(snippets)
 }
