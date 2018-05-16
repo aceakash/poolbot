@@ -244,7 +244,6 @@ function getWinText(winner: string, loser: string) {
         `${loser} left raging after resounding loss to ${winner}`,
         `${loser} was just handed a sickening defeat by ${winner}`,
         `${winner} coasts to an easy victory over a struggling ${loser}`,
-        `Looks like? Solid victory over ${loser}!`,
         `${winner} can do no wrong! Easy victory over ${loser}!`
     ]
     return sample(snippets)
