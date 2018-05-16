@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {padStart, padEnd, take} from 'lodash'
+import {padStart, padEnd, take, sample} from 'lodash'
 
 import {EventStore} from '../eventStore'
 import {FileEventStoreRepo} from '../fileEventStoreRepo'
@@ -227,9 +227,25 @@ function resultHandler(query: any, res: express.Response) {
     }
     eventStore.AddEvents(events)
     res.json({
-        text: `${winnerName} defeated ${loserName} (result added by ${addedBy})`,
+        text: `${getWinText(winnerName, loserName)}\n(result added by ${addedBy})`,
         response_type: 'in_channel'
     })
+}
+
+function getWinText(winner: string, loser: string) {
+    const snippets = [
+        `Oh oh, ${winner} just walloped ${loser}!`,
+        `It was close, but ${loser} didn't stand a chance against ${winner}.`,
+        `${winner} thoroughly defeated ${loser}.`,
+        `"What just happened?" wonders ${loser} as ${winner} takes a victory lap around the office.`,
+        `${winner} triumphant as ${loser} suffers another humiliating defeat.`,
+        `${loser} left in shock as ${winner} deals out shocking defeat.`,
+        `${winner} strikes again! ${loser} still trying to figure out what happened.`,
+        `${loser} left raging after resounding loss to ${winner}`,
+        `${loser} was just handed a sickening defeat by ${winner}`,
+        `${winner} coasts to an easy victory over struggling ${loser}`
+    ]
+    return sample(snippets)
 }
 
 function getDateString(date: Date): string {
