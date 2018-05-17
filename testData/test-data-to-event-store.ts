@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import {v4 as newUUID} from "uuid";
-import {Event, EventType, PlayerRegistered, ResultAdded} from './events'
+import {Event, EventType, PlayerRegistered, ResultAdded} from '../events'
 
 export function convert() {
     const buf = fs.readFileSync('./test-data.json', 'utf-8')

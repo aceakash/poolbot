@@ -1,4 +1,3 @@
-// import { User } from "./user";
 import {v4 as newUUID} from "uuid";
 import {has} from "lodash";
 
