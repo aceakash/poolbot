@@ -1,4 +1,4 @@
-import { equal, ok, fail } from 'assert'
+import { equal, ok, fail, deepEqual } from 'assert'
 import { EventStore } from '../eventStore';
 import { resultHandler, InChannelResponse } from './resultHandler';
 import { InMemoryEventStoreRepo } from '../InMemoryEventStoreRepo';
@@ -78,7 +78,7 @@ describe('resultHandler', () => {
         equal(fakeEventStore.GetAllEvents().length, 3)
     })
 
-    it('adds result if all ok', () => {
+    it('adds result to event log if all ok', () => {
         const fakeEventStore = new EventStore(new InMemoryEventStoreRepo([]))
         fakeEventStore.AddEvents([
             new PlayerRegistered('alice'), 
@@ -89,6 +89,10 @@ describe('resultHandler', () => {
         const allEvents = fakeEventStore.GetAllEvents()
         equal(allEvents.length, 3)
         equal(allEvents[2].Type, 'ResultAdded')
-        equal(allEvents[2].Data, {})
+        deepEqual(allEvents[2].Data, {
+            addedBy: 'an_observer',
+            winnerName: 'alice',
+            loserName: 'bob'
+        })
     })
 })
