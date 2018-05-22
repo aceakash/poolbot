@@ -1,6 +1,6 @@
 import { EventStore } from "../eventStore";
 import { sanitiseUserName } from "./helpers";
-import { RegisterPlayerCommand } from "../commands";
+import { RegisterPlayerCommand, PlayerAlreadyRegisteredError } from "../commands";
 
 export function registerHandler(query: any, eventStore: EventStore, adminUsers: string[]): string {
     const isAdmin = adminUsers.includes(sanitiseUserName(query.user_name))
@@ -13,12 +13,11 @@ export function registerHandler(query: any, eventStore: EventStore, adminUsers: 
     }
     const newPlayer = sanitiseUserName(parts[1])
     const events = eventStore.Decide(new RegisterPlayerCommand(newPlayer))
-    if (events instanceof Error) {
-        console.error(events)
-        return 'Oops something went wrong!'
+    if (events === PlayerAlreadyRegisteredError) {
+        return `${newPlayer} is already registered.`
     }
-    if (events.length === 0) {
-        return `${newPlayer} is already registered`
+    if (events instanceof Error) {
+        return `Oops, something went wrong. Please try again later.`
     }
     eventStore.AddEvents(events)
     return `${newPlayer} registered`

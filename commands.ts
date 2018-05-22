@@ -8,6 +8,7 @@ export enum CommandType {
 }
 
 export const PairAlreadyPlayedTodayError = new Error("Pair has already played today")
+export const PlayerAlreadyRegisteredError = new Error("Player already registered")
 
 export abstract class Command {
     Type: CommandType;
@@ -35,7 +36,7 @@ export class RegisterPlayerCommand extends Command {
             .filter(x => x.Type === EventType.PlayerRegistered)
             .filter(x => (x as PlayerRegistered).PlayerName === this.Name) 
         if (existing.length > 0) {
-            return []
+            return PlayerAlreadyRegisteredError
         }
         return [new PlayerRegistered(this.Name)]
     }
