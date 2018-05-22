@@ -77,4 +77,18 @@ describe('resultHandler', () => {
         equal(resp, 'Pair has already played today')
         equal(fakeEventStore.GetAllEvents().length, 3)
     })
+
+    it('adds result if all ok', () => {
+        const fakeEventStore = new EventStore(new InMemoryEventStoreRepo([]))
+        fakeEventStore.AddEvents([
+            new PlayerRegistered('alice'), 
+            new PlayerRegistered('bob')
+        ])
+
+        const resp = resultHandler({ user_name: 'an_observer', text: 'result alice bob'}, fakeEventStore)
+        const allEvents = fakeEventStore.GetAllEvents()
+        equal(allEvents.length, 3)
+        equal(allEvents[2].Type, 'ResultAdded')
+        equal(allEvents[2].Data, {})
+    })
 })
