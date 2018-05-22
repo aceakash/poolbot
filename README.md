@@ -10,3 +10,14 @@ docker run -it -e "PORT:2222" -p "2222:2222" --name poolbot  -v ${pwd}/event-sto
 ```
 
 If you have Node.js installed, just run `./local-dev.sh`
+
+Contribute
+==========
+
+To develop locally, you need Node.js installed.
+
+```
+npm i       
+npm test    # unit tests
+npm start   # start the app (ensure environment vars are present)
+```

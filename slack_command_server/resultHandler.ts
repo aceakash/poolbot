@@ -2,7 +2,7 @@ import {checkIfPlayersPresent, sanitiseUserName, getWinText} from './helpers'
 import { EventStore } from '../eventStore';
 import {AddResultCommand, PairAlreadyPlayedTodayError} from '../commands'
 
-interface InChannelResponse {
+export interface InChannelResponse {
     text: string;
     response_type: string;
 }
