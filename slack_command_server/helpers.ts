@@ -1,5 +1,6 @@
 import {EventStore} from '../eventStore'
 import {EventType, PlayerRegistered} from '../events'
+import { EloRatingItem } from '../projections/eloRating';
 
 export function sanitiseUserName(rawUserName: string) {
     rawUserName = rawUserName.toLowerCase().trim()
@@ -52,4 +53,17 @@ export function getDateString(date: Date): string {
         date = new Date(date)
     }
     return date.toUTCString().substring(5, 11)
+}
+
+export interface RankChange {
+    player: string;
+    oldRank: number;
+    newRank: number
+}
+
+export function getRankingChange(prevRatings: EloRatingItem[], 
+    currentRatings: EloRatingItem[], 
+    winner: string, 
+    loser: string): [RankChange, RankChange]  {
+        
 }
