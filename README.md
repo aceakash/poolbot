@@ -14,10 +14,11 @@ If you have Node.js installed, just run `./local-dev.sh`
 Contribute
 ==========
 
-To develop locally, you need Node.js installed.
+To develop locally, you need Node.js and yarn installed.
 
 ```
-npm i       
+npm i yarn -g
+yarn       
 npm test    # unit tests
 npm start   # start the app (ensure environment vars are present)
 ```

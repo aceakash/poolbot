@@ -5,7 +5,7 @@ if [ ! -f ./event-store.json ]; then
     cp ./testData/testEventStore.json ./event-store.json
 fi
 
-npm i
+yarn
 PORT=2222 EVENT_STORE_FILE_PATH=./event-store.json npm start
 
 
